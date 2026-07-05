@@ -13,12 +13,13 @@ jobs:
         env:
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
+          MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
           APPLE_ID: ${{ secrets.APPLE_ID }}
           TEAM_ID: ${{ secrets.TEAM_ID }}
           FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
         run: |
           missing=0
-          for name in MATCH_PASSWORD MATCH_GIT_URL APPLE_ID TEAM_ID FASTLANE_PASSWORD; do
+          for name in MATCH_PASSWORD MATCH_GIT_URL MATCH_GIT_BASIC_AUTHORIZATION APPLE_ID TEAM_ID FASTLANE_PASSWORD; do
             value="${!name}"
             if [ -z "$value" ]; then
               echo "::error::Missing GitHub secret: $name"
@@ -27,6 +28,7 @@ jobs:
           done
           if [ "$missing" -eq 1 ]; then
             echo "FASTLANE_PASSWORD = Apple app-specific password from appleid.apple.com"
+            echo "MATCH_GIT_BASIC_AUTHORIZATION = base64 of BunathPheng:YOUR_GITHUB_TOKEN"
             exit 1
           fi
           echo "All required secrets are present."
@@ -48,6 +50,7 @@ jobs:
         env:
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
           MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
+          MATCH_GIT_BASIC_AUTHORIZATION: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
           APPLE_ID: ${{ secrets.APPLE_ID }}
           TEAM_ID: ${{ secrets.TEAM_ID }}
           FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}

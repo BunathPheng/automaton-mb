@@ -9,11 +9,32 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Verify required secrets
+        env:
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+          MATCH_GIT_URL: ${{ secrets.MATCH_GIT_URL }}
+          APPLE_ID: ${{ secrets.APPLE_ID }}
+          TEAM_ID: ${{ secrets.TEAM_ID }}
+          FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
+        run: |
+          missing=0
+          for name in MATCH_PASSWORD MATCH_GIT_URL APPLE_ID TEAM_ID FASTLANE_PASSWORD; do
+            value="${!name}"
+            if [ -z "$value" ]; then
+              echo "::error::Missing GitHub secret: $name"
+              missing=1
+            fi
+          done
+          if [ "$missing" -eq 1 ]; then
+            echo "FASTLANE_PASSWORD = Apple app-specific password from appleid.apple.com"
+            exit 1
+          fi
+          echo "All required secrets are present."
+
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: "3.2"
-          bundler-cache: true
 
       - name: Set up Xcode
         uses: maxim-lobanov/setup-xcode@v1
@@ -30,6 +51,5 @@ jobs:
           APPLE_ID: ${{ secrets.APPLE_ID }}
           TEAM_ID: ${{ secrets.TEAM_ID }}
           FASTLANE_PASSWORD: ${{ secrets.FASTLANE_PASSWORD }}
-          FASTLANE_SESSION: ${{ secrets.FASTLANE_SESSION }}
           CI: true
         run: bundle exec fastlane match adhoc --readonly false

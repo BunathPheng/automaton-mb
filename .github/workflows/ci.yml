@@ -23,13 +23,26 @@ jobs:
 
       - name: SwiftLint
         run: |
+          export HOMEBREW_NO_REQUIRE_TAP_TRUST=1
           brew install swiftlint
           swiftlint
+
+      - name: Select iOS Simulator
+        id: simulator
+        run: |
+          SIMULATOR_ID=$(xcrun simctl list devices available | grep -E "iPhone" | head -1 | grep -Eo '[A-F0-9-]{36}' | head -1)
+          if [ -z "$SIMULATOR_ID" ]; then
+            echo "No available iPhone simulator found"
+            xcrun simctl list devices available
+            exit 1
+          fi
+          echo "Using simulator id: $SIMULATOR_ID"
+          echo "simulator_id=$SIMULATOR_ID" >> "$GITHUB_OUTPUT"
 
       - name: Build & Test
         run: |
           xcodebuild test \
             -scheme EasyCrypto \
             -project EasyCrypto.xcodeproj \
-            -destination 'platform=iOS Simulator,name=iPhone 16,OS=latest' \
+            -destination "platform=iOS Simulator,id=${{ steps.simulator.outputs.simulator_id }}" \
             -quiet

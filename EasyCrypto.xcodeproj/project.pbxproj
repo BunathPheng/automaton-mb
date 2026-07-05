@@ -42,6 +42,7 @@
 		02593C40298E63FC00ADDA20 /* FontNameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02593C3F298E63FC00ADDA20 /* FontNameManager.swift */; };
 		02593C46298E8BEC00ADDA20 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A81742C6297E593D00023B28 /* Assets.xcassets */; };
 		02593C47298E8BF100ADDA20 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A803DFBE297E91FF00357A7F /* Launch Screen.storyboard */; };
+		A1B2C3D42AFC000100000001 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A1B2C3D42AFC000100000002 /* GoogleService-Info.plist */; };
 		02593C48298E8C0900ADDA20 /* arialbold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A8104F4629814AB6008A8DDE /* arialbold.ttf */; };
 		02593C4A298E8D1200ADDA20 /* MarketsPrice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02593C49298E8D1200ADDA20 /* MarketsPrice.swift */; };
 		02593C4C298E90EF00ADDA20 /* MarketPriceUsecase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02593C4B298E90EF00ADDA20 /* MarketPriceUsecase.swift */; };
@@ -185,6 +186,7 @@
 		0252F0BA299AB99900CD0062 /* SpinnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpinnerView.swift; sourceTree = "<group>"; };
 		02593C3F298E63FC00ADDA20 /* FontNameManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontNameManager.swift; sourceTree = "<group>"; };
 		02593C41298E8A6700ADDA20 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A1B2C3D42AFC000100000002 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		02593C49298E8D1200ADDA20 /* MarketsPrice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketsPrice.swift; sourceTree = "<group>"; };
 		02593C4B298E90EF00ADDA20 /* MarketPriceUsecase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketPriceUsecase.swift; sourceTree = "<group>"; };
 		02593C4F298E95E800ADDA20 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
@@ -573,6 +575,7 @@
 				A81742C6297E593D00023B28 /* Assets.xcassets */,
 				A803DFBE297E91FF00357A7F /* Launch Screen.storyboard */,
 				02593C41298E8A6700ADDA20 /* Info.plist */,
+				A1B2C3D42AFC000100000002 /* GoogleService-Info.plist */,
 			);
 			name = Resource;
 			sourceTree = "<group>";
@@ -1144,6 +1147,7 @@
 				02593C48298E8C0900ADDA20 /* arialbold.ttf in Resources */,
 				02593C47298E8BF100ADDA20 /* Launch Screen.storyboard in Resources */,
 				02593C46298E8BEC00ADDA20 /* Assets.xcassets in Resources */,
+				A1B2C3D42AFC000100000001 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

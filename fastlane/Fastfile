@@ -1,0 +1,70 @@
+default_platform(:ios)
+
+platform :ios do
+  desc "Run unit tests"
+  lane :test do
+    run_tests(
+      scheme: "EasyCrypto",
+      project: "EasyCrypto.xcodeproj",
+      devices: ["iPhone 14"]
+    )
+  end
+
+  desc "Push a new beta build to TestFlight"
+  lane :beta do
+    setup_ci if is_ci
+    match(type: "appstore", readonly: is_ci)
+    increment_build_number(xcodeproj: "EasyCrypto.xcodeproj")
+    build_app(
+      scheme: "EasyCrypto",
+      project: "EasyCrypto.xcodeproj",
+      export_method: "app-store"
+    )
+    upload_to_testflight(skip_waiting_for_build_processing: true)
+  end
+
+  desc "Push a new release build to the App Store"
+  lane :release do
+    setup_ci if is_ci
+    match(type: "appstore", readonly: is_ci)
+    build_app(
+      scheme: "EasyCrypto",
+      project: "EasyCrypto.xcodeproj",
+      export_method: "app-store"
+    )
+    upload_to_app_store(
+      submit_for_review: false,
+      automatic_release: false
+    )
+  end
+
+  desc "Deploy ad-hoc build to Firebase App Distribution"
+  lane :firebase_beta do
+    setup_ci if is_ci
+    match(type: "adhoc", readonly: is_ci)
+    increment_build_number(xcodeproj: "EasyCrypto.xcodeproj")
+    build_app(
+      scheme: "EasyCrypto",
+      project: "EasyCrypto.xcodeproj",
+      export_method: "ad-hoc",
+      output_directory: "./build"
+    )
+
+    distribution_params = {
+      app: ENV.fetch("FIREBASE_APP_ID", "1:190476802025:ios:c15f3b701276df9ae09d78"),
+      groups: ENV.fetch("FIREBASE_TESTER_GROUPS", "internal-testers"),
+      release_notes: ENV.fetch("FIREBASE_RELEASE_NOTES", "EasyCrypto-iOS beta build"),
+      ipa_path: lane_context[SharedValues::IPA_OUTPUT_PATH]
+    }
+
+    if ENV["FIREBASE_TOKEN"]
+      distribution_params[:firebase_cli_token] = ENV["FIREBASE_TOKEN"]
+    elsif ENV["GOOGLE_APPLICATION_CREDENTIALS"]
+      distribution_params[:service_credentials_file] = ENV["GOOGLE_APPLICATION_CREDENTIALS"]
+    else
+      UI.user_error!("Set FIREBASE_TOKEN or GOOGLE_APPLICATION_CREDENTIALS for Firebase upload")
+    end
+
+    firebase_app_distribution(distribution_params)
+  end
+end
